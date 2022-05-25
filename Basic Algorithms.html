@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Algorithms</title>
+    <link rel="stylesheet" href="styles/stye.css" />
+  </head>
+  <body>
+    <div class="array">
+      <h1>Two Pointers</h1>
+      <hr />
+      <p>
+        Two pointers is an algorithmic technique where, as the name suggests, we
+        maintain two pointers to keep track of two indices in the array. The
+        primary condition for using the Two Pointers technique is monotonicity.
+        When we can prove that based on a certain condition the pointer is
+        either going to move left or right and by how much, two pointers provide
+        an efficient way to solve problems.
+      </p>
+      <ol>
+        <li>
+          <b>Equi-directional:</b> Both start from the beginning: we have fixed
+          and variable sliding window algorithms.
+        </li>
+        <li>
+          <b>Opposite-directional:</b> One at the start and the other at the
+          end, they move close to each other and meet somewhere in between, (->
+          <-).
+        </li>
+      </ol>
+      <img class="center" src="/two.png" alt="two pointer" />
+      <h1>Equi Directional Two Pointers Technique</h1>
+      <ul>
+        <li>MINIMUM SUBARRAY WITH PRODUCT AT LEAST P</li>
+      </ul>
+      <p>
+        <b>Problem Statement:</b> Given an array A consisting of natural
+        numbers, and a number P, find the length of the minimum length subarray
+        whose product is >= P. <br />
+        Example: Array : 1 2 3 4 5 6 <br />
+
+        P: 20 <br />
+
+        Output: 2
+      </p>
+      <p>
+        <b>Explanation:</b> The subarray 5-6 is the minimum length subarray with
+        product >=20. <br />
+        <b>Approach:</b><br />
+        We know that the product of the subarray is monotonically increasing as
+        the size of the subarray increases. Therefore, we place a ’window’ with
+        left and right as i and j at the first item first. The steps are as
+        follows:
+      </p>
+      <ul>
+        <li>
+          Get the optimal subarray starting from current i, 0: Then we first
+          move the j pointer to include enough items that product[0:j+1]>=P,
+          this is the process of getting the optimal subarray that starts with
+          0. And assume j stops at ed
+        </li>
+        <li>
+          Get the optimal subarray that ends with current j, e0: we shrink the
+          window size by moving the i pointer forward so that we can get the
+          optimal subarray that ends with current j and the optimal subarray
+          starts from s0.
+        </li>
+        <li>
+          Now, we find the optimal solution for subproblem [0:i,0:j](the start
+          point in range [0, i] and endpoint in range [0,j]. Start from next i
+          and j, and repeat steps 1 and 2.
+        </li>
+      </ul>
+      <img src="/app.png" alt="two pointer" class="center" height="250" />
+      <p>
+        Fig.3 A Subarray with product >=20. <br />
+        The code looks as follows:
+      </p>
+      <fieldset>
+        <ul type="none">
+          <li>function minSubarray(A, P)</li>
+          <br />
+          <ul type="none">
+            <li>// store the length of the array</li>
+            <li>n = A.length</li>
+            <br />
+            <li>
+              /* maintain 2 pointers one for the left end and the other for the
+              right end of the subarray */
+            </li>
+            <br />
+            <li>int i = 0, j = 0</li>
+            <br />
+            <li>
+              // We maintain the Product of the current window in the variable
+              curP
+            </li>
+            <li>curP = 1</li>
+            <br />
+            <li>// final answer</li>
+            <li>ans = infinity</li>
+            <br />
+            <li>// move the left pointer rightwards</li>
+            <li>while(i < n)</li>
+            <li>
+              /* while we do not reach the required product keep expanding the
+              window */
+            </li>
+            <ul type="none">
+              <li>while(j < n and curP <P)</li>
+              <ul type="none">
+                <li>curP *= A[j]</li>
+                <li>j++</li>
+              </ul>
+              <li>// we update the ans with the window length</li>
+              <li>if(curP >= P)</li>
+              <li>ans = min(ans, j - i + 1)</li>
+              <li>
+                // move the left pointer and update its contribution to the
+                product
+              </li>
+              <li>curP /= A[i]</li>
+              <li>i++</li>
+            </ul type="none">
+            <li>return ans</li>
+          </ul>
+        </ul>
+      </fieldset>
+      <p>The above process is a standard flexible window size algorithm, and it is a complete search that searches all the possible result space. Both j and i pointer move at most n, it makes the total operations to be at most 2*n, which we get time complexity as O(n).</p>
+      <h5>Opposite - directional Two Pointers Technique</h5>
+      <p>We start with 2 pointers where one is usually placed at the beginning of the array and the other one is placed at the end of the array. <br>
+        Two-pointers are usually used for searching a pair in the array. There are cases where the data is organized in a way that we can search all the result space by placing two pointers each at the start and rear of the array and move them to each other and eventually meet and terminate the search process. The search target should help us decide which pointer to move at that step. This way, each item in the array is guaranteed to be visited at most one time by one of the two pointers, thus making the time complexity be O(n). Binary search uses the technique of two pointers too, the left and right pointer together decide the current searching space, but it erases half searching space at each step instead.</p>
+        <ul>
+          <li>TWO SUM</li>
+        </ul>
+      <p><b>Problem Statement:</b> Given a sorted array and a number S, find the indices of any two elements which sum up to exactly S, or report that such a pair does not exist. <br>
+        <b>Example:</b> Array: 1 2 3 4 5 6 <br>
+        Target Sum: 6 <br>
+        Output: 1, 3 <br> 
+        <b>Explanation:</b> Elements at indices 1 and 3 (i.e 2 and 4 respectively sum upto the target sum = 6). <br>
+        <b>Approach:</b></p> 
+        <img src="/twosum.png" alt="two sum" class="center">
+
+        <p>Due to the fact that the array is sorted which means in the array [s,s1 ..., e1, e], the sum of any two integers is in the range of [s+s1, e1+e]. By placing two pointers, v1 and v2, that start from s and e, we started the search space from the middle of the possible range. [s+s1, s+e, e1+e]. Compare the target t with the sum of the two pointers v1 and v2: <br>
+          1. S == v1 + v2: found <br>
+          2. v1 + v2 < S: we need to move to the right side of the space from v1, i.e we increase v1 to get a larger value. <br>
+          3. v1 + v2 > S: we need to move to the left side of the space from v2, i.e we decrease v2 to get a smaller value. <br>
+          The code looks as follows:</p>
+          <fieldset>
+            <ul type="none">
+              <li>function twoSum(A, S):</li>
+              <ul type="none">
+                <li>//   store the length of the array </li>
+                <li>n = A.length</li><br><br>
+                <li>// maintain 2 pointers one for the left end and the other for the right end of the subarray.</li><br>
+                <li>int i = 0, j = n - 1</li>
+                <li>//   final answer pair</li>
+                <li>ans  = {-1 , -1} </li>
+                <li>//   while the left pointer is less than the right pointer</li>
+                <li>while(i <= j)</li>
+                <ul type="none">
+                  <li>//   calculate the current Sum of 2 pointers</li>
+                  <li>curSum = A[i] + A[j]</li>
+                  <li>if(curSum == S)</li>
+                  <ul type="none"><li>//   we have found a valid pair so return the indices</li><li>ans = {i, j}</li><li>return ans</li></ul>
+                  <li>else if (curSum > S)</li>
+                  <ul type="none"><li>//   move the right pointer left as the sum is greater</li><li>j -= 1</li></ul>
+                  <li>else</li>
+                  <ul type="none"><li>//   move the left pointer right as the sum is smaller</li><li>i += 1</li></ul>
+                </ul>
+                <li>return ans</li>
+              </ul>
+            </ul>
+          </fieldset>
+          <p>Since both the pointers move to the right and left at most n times the total increment and decrement operators are bounded by 2*n. Hence the Time complexity is O(n). The space complexity is O(1) since we are using constant space to maintain the pointers. </p>
+          <hr>
+          <h1>Sliding Window</h1>
+          <p>The sliding window technique is useful for solving problems in arrays or strings. Generally, it is considered as a technique that could reduce the time complexity from O(n²) to O(n).</p>
+          <p>Sliding Window Technique is a method for finding subarrays in an array that satisfy given conditions. We do this via maintaining a subset of items as our window and resize and move that window within the larger list until we find a solution. <br>
+          <b>There are two types of sliding window:</b></p>
+          <ol>
+            <li><b>Fixed window length k:</b> the length of the window is fixed and it asks you to find something in the window such as the maximum sum of all windows, the maximum or a median number of each window. Usually, we need some kind of variables to maintain the state of the window, some are as simple as an integer or it could be as complicated as some advanced data structure such as list, queue, or deque.</li>
+            <li><b>Two pointers + criteria:</b> the window size is not fixed, usually it asks you to find the subarray that meets the criteria, for example, given an array of integers, find the number of subarrays whose sum is equal to a target value.</li>
+          </ol>
+
+          <p>Let’s understand it by an example:</p>
+
+          <ul><li><b>EXAMPLE:</b> Given an array of positive integers, find a subarray that sums up to target. Let the array be [1, 2, 3, 4, 5, 6, 7, 8, 9] and target be 9.</li></ul>
+
+          <p>We will start with window size = 1, then keep increasing the window size until the sum of elements inside the window is greater than or equal to the target. If the sum equals to target return true else decrease the window size from the left and reduce the sum till it is less than or equal to the target.          </p>
+          <img src="/sliding window.png" alt="sliding window" class="center">
+          <fieldset>
+            <ul type="none">
+              <li>function countSubarrays(arr, target)</li>
+              <ul type="none">
+                <li>count =0 ;</li>
+                <li>curr_sum = arr[0], start = 0, i = 1</li>
+                <br><br>
+                <li>//   Pick a starting point</li>
+                <li>while i <= arr.length</li>
+                <ul type="none">
+                  <li>//   If curr_sum exceeds the target, then remove the starting elements</li>
+                  <li>while curr_sum > target AND start < i - 1</li>
+                  <ul type="none"><li>curr_sum = curr_sum - arr[start]</li><li>start += 1</li></ul><br>
+                  <li>//   If curr_sum becomes equal to target,  then return true</li>
+                  <li>if curr_sum == target</li>
+                  <ul type="none"><li> p = i - 1</li><li>print(“subarray found between start and p”)</li><li>return 1</li></ul><br><br>
+                  <li>//   Add this element to curr_sum</li>
+                  <li>if i < n</li>
+                  <ul type="none"><li>curr_sum = curr_sum + arr[i]</li></ul>
+                  <li>i += 1</li>
+                </ul>
+                <li>print(“no subarray found”)</li>
+                <li>return 0</li>
+              </ul>
+            </ul>
+          </fieldset>
+          <p><b>Time Complexity: O(n)</b>, only one traversal of array is needed.</p>
+    </div>
+  </body>
+</html>

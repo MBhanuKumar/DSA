@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrays</title>
+    <link rel="stylesheet" href="styles/stye.css" />
+  </head>
+  <body>
+    <div class="array">
+      <h1>Arrays</h1>
+      <hr />
+      <p>
+        An array is defined as a fixed-size collection of elements of the same
+        data type stored in contiguous memory locations. It is the simplest data
+        structure where each element of the array can be accessed by using its
+        index.
+      </p>
+      <h3>Properties of arrays</h3>
+      <ul>
+        <li>
+          Each element of the array is of the same data type and same size.
+          <br>
+          <b>For example:</b>
+          For an array of integers with the int data type, each element of the
+          array will occupy 4 bytes.
+        </li>
+        <li>
+          Elements of the array are stored in contiguous memory locations.
+        </li>
+        <b>For example :</b>
+        200 is the starting address (base address) assigned to the first element
+        of the array and each element of the array is of integer data type
+        occupying 4 bytes in memory.
+      </ul>
+      <img class="center" src="download.png" alt="example image" />
+      <h3>Accessing array elements</h3>
+      <ul>
+        <li>
+          The elements of the array are accessed by using their index. The index
+          of an array of size N ranges from 0 to N-1.
+        </li>
+        <br />
+        <b>For example:</b>
+        Accessing element at index 5: Array[5] -> this is the 6th element in the
+        array.
+        <br /><br />
+        <li>
+          Every array is identified by its base address i.e the location of the
+          first element of the array in memory. So, basically, the base address
+          helps in identifying the address of all the elements of the array.
+        </li>
+        <li>
+          Since the elements of an array are stored in contiguous memory
+          locations, the address of any element can be accessed from the base
+          address itself.
+        </li>
+        <b>For example :</b>
+        200 is the base address of the array, so address of element at index 4
+        will be 200 + 4 * (sizeof(int)) = 216.
+      </ul>
+      <h3>Where can arrays be used?</h3>
+      <ul>
+        <li>
+          Arrays should be used where the number of elements to be stored is
+          already known.
+        </li>
+        <li>
+          Arrays are commonly used in computer programs to organize data so that
+          a related set of values can be easily sorted or searched.
+        </li>
+        <li>
+          Generally, when we require very fast access times, we usually prefer
+          arrays since they provide O(1) access times.
+        </li>
+        <li>
+          Arrays work well when we have to organize data in multidimensional
+          format. We can declare arrays of as many dimensions as we want.
+        </li>
+        <li>
+          If the index of the element to be modified is known beforehand, it can
+          be efficiently modified using arrays due to quick access time and
+          mutability.
+        </li>
+      </ul>
+      <h3>Disadvantages of arrays</h3>
+      <ul>
+        <li>
+          Since arrays are fixed-size data structures you cannot dynamically
+          alter their sizes. It creates a problem when the number of elements
+          the array is going to store is not known beforehand.
+        </li>
+        <li>
+          Insertion and Deletion in arrays are difficult and costly since the
+          elements are stored in contiguous memory locations, hence, we need to
+          shift the elements to create/delete space for elements.
+        </li>
+        <li>
+          If more memory is allocated than required, it leads to the wastage of
+          memory space and less allocation of memory also leads to a problem.
+        </li>
+      </ul>
+      <h3>Time Complexity of various operations</h3>
+      <ul>
+        <li>
+          <b>Accessing elements:</b> Since elements in an array are stored at
+          contiguous memory locations, they can be accessed very efficiently
+          (random access) in O(1) time using indices.
+        </li>
+        <li>
+          <b>Inserting elements:</b> Insertion of elements at the end of the
+          array (at the index located to the right of the last element and there
+          is still available space) takes O(1) time.
+        </li>
+        <br />
+        Insertion of elements at the beginning or at any index of the array
+        involves moving elements to the right if there is available space.
+        <br /><br />
+        <li>
+          If we want to insert an element at index i, all the elements starting
+          from index i need to be shifted to the right by one position. Thus,
+          the time complexity for inserting an element at index i is O(N - i).
+        </li>
+        <li>
+          Inserting an element at the beginning of the array involves moving all
+          elements by one position to their right, if there is available space,
+          and takes O(N) time.
+        </li>
+        <li>
+          <b>Finding elements:</b> Finding an element in an array takes O(N)
+          time in the worst case, where N is the size of the array, as you may
+          need to traverse the entire array.
+        </li>
+        <li>
+          <b>Deleting elements:</b> Deletion of elements from the end of the
+          array takes O(1) time.
+        </li>
+        <br />
+        Deleting elements from the beginning or at any index of the array
+        involves moving elements to the left.
+        <br /><br />
+        <li>
+          If we want to delete an element at index i, all the elements starting
+          from index (i + 1) need to be shifted to the left by one index. Thus,
+          the time complexity for deleting an element at index i is O(N - i).
+        </li>
+        <li>
+          Deleting an element from the beginning involves moving all elements
+          starting from index 1 to left by one position, and takes O(N) time.
+        </li>
+      </ul>
+      <hr />
+    </div>
+    <div class="array">
+      <h1>Kadane's Algorithm</h1>
+      <p>Problem Statement</p>
+      <p>
+        Given an array of N integers a1,a2,a3,....., aN find the maximum
+        subarray(non-empty) sum of the given array.
+      </p>
+      <p>
+        <b>NOTE:</b> An array B is a subarray of an array A if B can be obtained
+        from A by deleting several (possibly, zero, or all) elements from the
+        beginning and several (possibly, zero or all) elements from the end. In
+        particular, an array is a subarray of itself.
+        <br />
+        <br />
+        <b>For example:</b> <br />
+        A[] = [-1, 2, -2, 5, 7, -3, 1] <br />
+        Maximum subarray sum -> 12 Subarray(0-Based indexed) from index 1 to 4
+        -> [2, -2, 5, 7] and subarray(0-Based indexed) from index 3 to 4 -> [5,
+        7] have sum 12.
+      </p>
+      <h3>Kadane’s Algorithm</h3>
+      <p>
+        The idea of Kadane’s algorithm is to maintain a maximum subarray sum
+        ending at every index ‘i’ of the given array and update the maximum sum
+        obtained by comparing it with the maximum sum of the subarray ending at
+        every index ‘i’.
+      </p>
+      <p>At any given index ‘i’ of the array, we can either:</p>
+      <ul>
+        <li>
+          Append the element at index ‘i’ to the maximum sum subarray(so just
+          add the element at index ‘i’ to the maximum you’ve found so far).
+        </li>
+        <li>Start a new subarray starting from index ‘i’.</li>
+      </ul>
+      <p>
+        Appending an element at index ‘i’ to the maximum sum subarray obtained
+        so far is beneficial if the sum till index ‘i-1’ is non-negative,
+        otherwise it is better to start a new subarray starting from index ‘i’
+        and update the maximum sum obtained accordingly.
+      </p>
+      <p>
+        <b>For Example:</b> Consider the given array A[] = [1, -2, -3, 4, -1, 2,
+        1]. Element denotes the current element at index ‘i’, MaxSum is the
+        maximum sum obtained so far till index ‘i’, Sum denotes the current sum
+        obtained.
+      </p>
+      <fieldset>
+         <ul type="none">
+          <li>Initialize Sum to 0, MaxSum to INT_MIN</li>
+          <li>for i = 0</li>
+          <ul type="none">
+            <li>A[i] = 1,</li>
+            <li>Sum = Sum + A[i] = 1</li>
+            <li>MaxSum = max(MaxSum,Sum) = 1</li>
+          </ul>
+          <li>for i = 1</li>
+          <ul type="none">
+            <li>A[i] = -2,</li>
+            <li>Sum = Sum + A[i] = -1</li>
+            <li>MaxSum = max(MaxSum,Sum) = 1</li>
+          </ul>
+          <br>
+          <li>
+            Since Sum is negative, there is no point in appending the current sum
+            obtained to the next element, so Sum = 0 i.e It is better to start a
+            new subarray from the next index.
+          </li>
+          <li>for i = 2</li>
+          <ul type="none">
+            <li>A[i] = -3,</li>
+            <li>Sum = Sum + A[i] = -3</li>
+            <li>MaxSum = max(MaxSum,Sum) = 1</li>
+          </ul>
+          <br>
+          <li>
+            Again, since Sum is negative, there is no point in appending the
+            current sum obtained to the next element, so Sum = 0 i.e It is better
+            to start a new subarray from the next index.
+          </li>
+          <li>for i = 3</li>
+          <ul type="none">
+            <li>A[i] = 4,</li>
+            <li>Sum = Sum + A[i] = 4</li>
+            <li>MaxSum = max(MaxSum,Sum) = 4</li>
+          </ul>
+          <br>
+          <li>for i = 4</li>
+          <ul type="none">
+            <li>A[i] = -1,</li>
+            <li>Sum = Sum + A[i] = 3</li>
+            <li>MaxSum = max(MaxSum,Sum) = 4</li>
+          </ul><br>
+          <li>
+            Even if the element at A[i] is negative, the overall current sum is
+            non-negative, so we retain the current sum to look for possible better
+            options on appending the next elements. We have already updated the
+            MaxSum for the subarray ending at index 3.
+          </li><br>
+          <li>for i = 5</li>
+          <ul type="none">
+            <li>A[i] = 2,</li>
+            <li>Sum = Sum + A[i] = 5</li>
+            <li>MaxSum = max(MaxSum,Sum) = 5</li>
+          </ul><br>
+          <li>for i = 6</li>
+          <ul type="none">
+            <li>A[i] = 1,</li>
+            <li>Sum = Sum + A[i] = 6</li>
+            <li>MaxSum = max(MaxSum,Sum) = 6</li>
+          </ul>
+        </ul>
+      </fieldset>
+      <h5>Pseudocode:</h5>
+      <fieldset>
+        <ul type="none">
+          <li>function Kadane(arr, N)</li>
+          <ul type="none">
+            <li>
+              // Initializing curSum to 0 and maxSum to min value, denoting an
+              empty subarray
+            </li>
+            <li>curSum = 0</li>
+            <li>maxSum = INT_MIN</li>
+            <br />
+            <li>for idx = 0 to N-1</li>
+            <ul type="none">
+              <li>curSum = curSum + arr[idx]</li>
+              <li>
+                // Taking the max of maxSum and the curSum of the subarray
+              </li>
+              <li>maxSum = max(maxSum,curSum)</li>
+              <br />
+              <li>// Checking if the curSum becomes negative</li>
+              <li>if curSum < 0</li>
+              <ul type="none">
+                <li>curSum = 0</li>
+              </ul>
+            </ul>
+            <li>return maxSum</li>
+          </ul>
+        </ul>
+      </fieldset>
+      <p>
+        <b>Time complexity:</b> O(N), where N is the number of elements in the
+        array, as we traverse the array once to get the maximum subarray sum.
+      </p>
+      <p><b>Space complexity:</b> O(1), as no extra space is required.</p>
+      <hr />
+    </div>
+    <div class="array">
+      <h1>Dutch National Flag Algorithm</h1>
+
+      <h5>Problem Statement</h5>
+
+      <p>Given an array consisting of only 0s, 1s and 2s, sort the array.</p>
+
+      <h5>Naive Approach:</h5>
+
+      <p>
+        Simply sort the array with the help of sorting algorithms like Merge
+        Sort, Quick Sort. This gives a time complexity of O(N*logN), where N is
+        the number of elements in the array.
+      </p>
+
+      <h5>Two-Pass Algorithm:</h5>
+
+      <p>
+        The solution involves iterating through the original array and counting
+        the number of 0s, 1s, and 2s, and just overwriting the original array in
+        a second pass. The only disadvantage is that we need to traverse the
+        array twice to get a sorted array.
+      </p>
+      <h3>Steps:</h3>
+      <ul>
+        <li>
+          Traverse the array once and keep track of the count of 0s, 1s and 2s
+          encountered.
+        </li>
+        <li>
+          Now traverse the array again and overwrite the array starting from the
+          beginning, first with 0s, then 1s, and finally all 2s.
+        </li>
+      </ul>
+      <h5>Pseudocode:</h5>
+      <fieldset>
+        <ul type="none">
+          <li>// array of size N from 0 to N-1 is considered</li>
+          <br />
+          <li>function sort012(arr, N)</li>
+          <ul type="none">
+            <br />
+            <li>// Initialize the cnt0, cnt1 and cnt2 variables to 0.</li>
+            <li>cnt0 = 0</li>
+            <li>cnt1 = 0</li>
+            <li>cnt2 = 0</li>
+            <br />
+            <li>// Count the number of 0s, 1s and 2s</li>
+            <li>for idx = 0 to N-1</li>
+            <ul type="none">
+              <li>if arr[idx] == 0</li>
+              <ul type="none">
+                <li>cnt0 += 1</li>
+              </ul>
+              <li>else if arr[idx] == 1</li>
+              <ul type="none">
+                <li>cnt1 += 1</li>
+              </ul>
+              <li>else</li>
+              <ul type="none">
+                <li>cnt2 += 1</li>
+              </ul>
+            </ul>
+            <br />
+            <li>// Now overwrite the array from the beginning</li>
+            <li>for idx = 0 to N-1</li>
+            <ul type="none">
+              <li>if cnt0 > 0</li>
+              <ul type="none">
+                <li>arr[idx] = 0</li>
+                <li>cnt0 -= 1</li>
+              </ul>
+              <li>else if cnt1 > 0</li>
+              <ul type="none">
+                <li>arr[idx] = 1</li>
+                <li>cnt1 -= 1</li>
+              </ul>
+              <li>else</li>
+              <ul type="none">
+                <li>arr[idx] = 2</li>
+                <li>cnt2 -= 1</li>
+              </ul>
+            </ul>
+          </ul>
+        </ul>
+      </fieldset>
+      <p>
+        <b>Time complexity: O(N)</b>, where N is the number of elements in the
+        array, as we traverse the array twice only.
+      </p>
+
+      <p><b>Space complexity: O(1)</b>, as no extra space is required.</p>
+
+      <h5>Dutch National Flag algorithm or Three-way partitioning</h5>
+
+      <p>
+        The Dutch National Flag algorithm or three-way partitioning algorithm
+        allows sorting the array consisting of 0s, 1s, and 2s in a single
+        traversal only and in constant space.
+      </p>
+      <p><b>Steps:</b></p>
+      <ul>
+        <li>
+          Maintain three indices low = 0, mid = 0, and high = N-1, where N is
+          the number of elements in the array.
+        </li>
+        <ol type="1">
+          <li>The range from 0 to low denotes the range containing 0s.</li>
+          <li>The range from low to mid denotes the range containing 1s.</li>
+          <li>
+            The range from mid to high denotes the range containing any of 0s,
+            1s, or 2s.
+          </li>
+          <li>The range from high to N-1 denotes the range containing 2s.</li>
+        </ol>
+        <li>
+          The mid pointer denotes the current element, traverses the array while
+          mid<=high i.e we have exhausted the search space for the range which
+          can contain any of 0s, 1s, or 2s.
+        </li>
+        <ol type="1">
+          <li>
+            If A[mid] == 0, swap A[mid] and A[low] and increment low and mid
+            pointers by 1.
+          </li>
+          <li>If A[mid] == 1, increment the mid pointer by 1.</li>
+          <li>
+            If A[mid] == 2, swap A[high] and A[mid] and increment mid by 1 and
+            decrement high by 1.
+          </li>
+        </ol>
+      </ul>
+      <p>
+        The resulting array will be a sorted array containing 0s, 1s, and 2s.
+      </p>
+      <p><b>Pseudocode:</b></p>
+      <fieldset>
+        <ul type="none">
+          <li>// array of size N from 0 to N-1 is considered</li>
+          <br />
+          <li>function DNF(arr, N)</li>
+          <ul type="none">
+            <br />
+            <li>// Initializing low, mid and high pointers</li>
+            <li>low = 0</li>
+            <li>mid = 0/li></li>
+            <li>high = N-1</li>
+            <br />
+            <li>while mid <= high</li>
+            <ul type="none">
+              <li>
+                // Check if arr[mid] == 0, swap arr[low] and arr[mid], increment
+                mid and low pointers
+              </li>
+              <li>if arr[mid] == 0</li>
+              <ul type="none">
+                <li>swap(arr[mid],arr[low])</li>
+                <li>low += 1</li>
+                <li>mid += 1</li>
+              </ul>
+              <br>
+              <li>// Check if arr[mid] == 1, increment mid pointer</li>
+              <li>else if arr[mid] == 1</li>
+              <ul type="none">
+                <li>mid += 1</li>
+              </ul>
+              <br>
+              <li>
+                // Check if arr[mid] == 2, swap arr[mid] and arr[high],
+                decrement high pointer
+              </li>
+              <li>else if arr[mid] == 2</li>
+              <ul type="none">
+                <li>swap(arr[mid],arr[high])</li>
+                <li>high -= 1</li>
+              </ul>
+            </ul>
+      </fieldset>
+      <p><b>Time complexity: O(N)</b>, where N is the number of elements in the array, as we sort the array in a single traversal only.</p>
+      <p><b>Space complexity: O(1)</b>, as no extra space is required.</p>
+<hr>
+    </div>
+  </body>
+  <div class="array">
+    <h1>Searching and Sorting</h1>
+    <h5>Searching</h5>
+    <p>Searching means to find out whether a particular element is present in the given array/list. For instance, when you visit a simple google page and type anything that you want to know/ask about, basically you are searching that topic in google’s huge database for which google is using some technique in order to provide the desired result to you.</p>
+    <p>There are basically two types of searching techniques:</p>
+    <ul>
+      <li>Linear search</li>
+      <li>Binary search</li>
+    </ul>
+    <h5>Linear Search</h5>
+    <p>It is a simple sequential search over all the elements of the array, and each element is checked for a match, if a match is found return the element otherwise the search continues until we reach the end of the array.
+    </p>
+    <p><b>Pseudocode:</b></p>
+    <fieldset>
+      <ul type="none">
+        <li>// array from leftidx(0) to rightidx(arr.length-1) is considered</li>
+        <li>function linearSearch(arr, leftidx , rightidx , target)</li><br>
+        <ul type="none">
+          <li>// Search for the target from the beginning of arr</li>
+          <li>for idx = 0 to arr.length-1</li>
+          <ul type="none">
+            <li>if arr[idx] == target</li>
+            <ul type="none"><li>return idx</li></ul>
+          </ul><br>
+          <li>// target is not found</li>
+          <li>return -1</li>
+        </ul>
+      </ul>
+    </fieldset>
+    <p><b>Time complexity: O(N)</b>, as we traverse the array only once to check for a match for the target element.</p>
+
+    <p><b>Space complexity: O(1)</b>, as no extra space is required.</p>
+    <h5>Binary Search</h5>
+    <p>Search in a sorted array by repeatedly dividing the array into two halves and searching in one of the halves.
+      Suppose you want to find a particular element in the sorted array, then following this technique, you have to traverse all the array elements for searching one element but guess if you only have to search at most half of the array indices for performing the same operation. This can be achieved through binary search.</p>
+<p>Now, let's look at what binary searching is. <br>
+  Let us consider the array: <br>
+  
+   <span>0       1        2        3       4</span><br> 
+  
+      1       2        3        4       5</p>
+      <p>Given an array of size 5 with elements inside the boxes and indices above them. Our target element is 2.
+
+      </p>
+      <p><b>Steps:</b></p>
+      <ul>
+        <li>Find the middle index of the array.</li>
+         <li>Now, we will compare the middle element with the target element. In case they are equal then we will simply return the middle index.</li>
+         <li>In case they are not equal, then we will check if the target element is less than or greater than the middle element.</li>
+         <ol>
+           <li>In case, the target element is less than the middle element, it means that the target element, if present in the given array, will be on the left side of the middle element as the array is sorted.</li>
+           <li>Otherwise, the target element will be on the right side of the middle element.</li>
+         </ol>
+         <li>This helps us discard half of the length of the array each time and we reduce our search space to half of the current search space.</li>
+      </ul>
+<p>In the example above, the middle element is 3 at index 2, and the target element is 2 which is greater than the middle element, so we will move towards the left part. Now marking start = 0, and end = n/2-1 = 1, now middle = (start + end)/2 = 0. Now comparing the 0-th index element with 2, we find that 2 > 1, hence we will be moving towards the right. Updating the start  = 1 and end = 1, middle becomes 1, comparing the 1-st index of the array with the target element, we find they are equal, meaning from here we will simply return 1 (the index of the element). 
+
+</p>
+<h5>Advantages of Binary search:
+</h5>
+<ul>
+ <li>This searching technique is fast and easier to implement.</li>
+<li>Requires no extra space.</li>
+<li>Reduces time complexity of the program to a greater extent i.e O(logN), where N is the number of the elements in the array, provided the given array is already sorted.</li>
+</ul>
+
+<p><b>Pseudocode:</b></p>
+<fieldset>
+  <ul type="none">
+    <li>// array of size N from 0 to N-1 is considered </li>
+    <li>function binarySearch(arr, N, target)</li>
+    <br>
+    <ul type="none">
+      <li>// Initializing lo and hi pointers</li>
+      <li>lo = 0</li>
+      <li>hi = N-1</li>
+      <br>
+      <li>//   Searching for the target element until lo<=hi</li>
+      <li>while lo <= hi</li><br>
+      <ul type="none">
+        <li>//   Finding the mid of search space from lo to hi</li>
+        <li>mid = lo + (hi-lo)/2</li><br>
+        <li>//   If the target element is present at mid</li>
+        <li>if arr[mid] == target</li>
+        <ul type="none"><li>return mid</li></ul><br>
+        <li>// If the target element is less than arr[mid], then if the target is	
+          present, it must be in the left half.</li>
+          <br>
+        <li>if target < arr[mid]</li>
+        <ul type="none"><li>hi = mid-1</li></ul>
+        <br>
+        <li>//   Otherwise if the target is present, it must be in the right half</li>
+        <li>else</li>
+        <ul type="none"><li>lo = mid+1</li></ul><br>
+      </ul>
+      <li>//   If the target is not found return -1</li>
+      <li>return -1</li>
+    </ul>
+  </ul>
+</fieldset>
+<p><b>Time complexity: O(logN)</b>, where N is the number of elements in the array, given the array is sorted. Since we search for the target element is one of the halves every time, reducing our search space to half of the current search space.</p>
+<p>Since we go on searching for the target until our search space reduces to 1, so</p>
+<ul type="none">
+<li>Iteration 1- Initial search space: N</li>
+
+<li>Iteration 2 - Search space: N/2</li>
+
+<li>Iteration 3 - Search space: N/4</li>
+</ul>
+ 
+
+<p>Let after ‘k’ iterations search space reduces to 1</p>
+
+<p>So, N/(2k) = 1 <br> => N = 2k</p>
+<p>Taking Log2 on both sides: <br> => k = log2N <br>
+Hence, the maximum number of iterations ‘k’ comes out to be log2N.</p>
+<p><b>Space complexity: O(1)</b>, as no extra space is required.</p>
+<h5>Sorting</h5>
+<p>Sorting means an arrangement of elements in an ordered sequence either in increasing(ascending) order or decreasing(descending) order. Sorting is very important and many software and programs use this. The major difference is the amount of space and time they consume while being performed in the program.</p>
+    <hr>
+  </div>
+  <div class="array">
+    <h1>Prefix and Suffix Sum</h1>
+    <h5>Prefix Sum:</h5>
+    <p>Given an array, ‘A’ of size N, its prefix sum array is an array of the same size N such that the ith element of the prefix sum array ‘Prefix’ is the sum of all elements of the given array till ith index from the beginning, i.e Prefix[i] = A[0] + A[1] + A[2] + … + A[i]. </p>
+    <p><b>For Example:</b> Given A[] = [3, 4, -1, 2, 5], the prefix sum array P[] is given as - <br>
+
+      P[0] = 3, P[1] = 7, P[2] = 6, P[3] = 8, P[4] = 13
+      
+      i.e. P[] = [3, 7, 6, 8, 13]</p>
+      <h5>Applications:</h5>
+      <ol><li>Useful for answering efficiently range sum/xor queries, provided the array elements do not change over which the prefix sum/xor array is calculated.</li>
+        <li> Product of elements in a given range.</li>
+        <li>Useful for calculating maximum sum subarray and many more...</li></ol>
+      
+<h5>Suffix Sum:</h5>
+ <p>Given an array ‘A’ of size N, its suffix sum array is an array of the same size N such that the ith element of the suffix sum array ‘Suffix’ is the sum of all elements of the given array till ith index from the end, i.e Suffix[i] = A[i] + A[i+1] + A[i+2] + … + A[N-1] - (0-Based indexing).</p>
+<p>For Example: Given A[] = [3, 4, -1, 2, 5], the suffix sum array S[] is given as - <br>
+
+  S[0] = 13, S[1] = 10, S[2] = 6, S[3] = 7, S[5] = 5. <br>
+  
+  i.e. S[] = [13, 10, 6, 7, 5]</p>
+
+<p>Suffix sum array can serve the same applications as prefix sum array, as it works in a similar manner to prefix sum array.</p>
+      <hr>
+  </div>
+</html>
